@@ -1,12 +1,9 @@
 package com.android.aop.part2.useditemsellingapp.home
 
-import android.app.Activity
-import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -22,12 +19,11 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import java.lang.Exception
 
 
 class AddArticleActivity : AppCompatActivity() {
 
-    val binding by lazy { ActivityAddArticleBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityAddArticleBinding.inflate(layoutInflater) }
 
     private var selectedUri: Uri? = null
 
@@ -43,6 +39,20 @@ class AddArticleActivity : AppCompatActivity() {
         Firebase.database.reference.child(DB_ARTICLES)
     }
 
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                2000 -> {
+                    val uri = result.data?.data
+                    if (uri != null) {
+                        binding.photoImageView.setImageURI(uri)
+                        selectedUri = uri
+                    } else {
+                        Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,23 +84,26 @@ class AddArticleActivity : AppCompatActivity() {
             val title = binding.titleEditText.text.toString()
             val price = binding.priceEditText.text.toString()
             val sellerId = auth.currentUser?.uid.orEmpty()
-        }
 
-        showProgress()
+            showProgress()
 
-        if (selectedUri != null) {
-            val photoUri = selectedUri ?: return@setOnClickListener
-            uploadPhoto(photoUri,
-                successHandler = { uri ->
-                    uploadArticle(sellerId, title, price, uri)
-                },
-                errorHandler = {
-                    Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                    hideProgress()
-                }
-            )
-        } else {
-            uploadArticle(sellerId, title, price, "")
+            //이미지가 있을 경우
+            if (selectedUri != null) {
+                val photoUri = selectedUri ?: return@setOnClickListener
+                uploadPhoto(photoUri,
+                    successHandler = { uri ->
+                        uploadArticle(sellerId, title, price, uri)
+                    },
+                    errorHandler = {
+                        Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        hideProgress()
+                    }
+                )
+            }
+            //이미지가 없을 경우
+            else {
+                uploadArticle(sellerId, title, price, "")
+            }
         }
     }
 
@@ -112,36 +125,13 @@ class AddArticleActivity : AppCompatActivity() {
         }
     }
 
+
     private fun startContentProvider() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        startActivityForResult(intent, 2000)
-
+        startForResult.launch(intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-
-        when (requestCode) {
-            2000 -> {
-                val uri = data?.data
-                if (uri != null) {
-                    binding.photoImageView.setImageURI(uri)
-                    selectedUri = uri
-                } else {
-                    Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-            else -> {
-                Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     private fun showPermissionContextPopup() {
         AlertDialog.Builder(this)
@@ -154,7 +144,6 @@ class AddArticleActivity : AppCompatActivity() {
             .show()
 
     }
-
 
 
     private fun showProgress() {
@@ -188,9 +177,11 @@ class AddArticleActivity : AppCompatActivity() {
     private fun uploadArticle(sellerId: String, title: String, price: String, imageUrl: String) {
         val model = ArticleModel(sellerId, title, System.currentTimeMillis(), "$price 원", imageUrl)
         articleDB.push().setValue(model)
-
-        hideProgress()
-        finish()
+            .addOnCompleteListener { hideProgress() }
+            .addOnSuccessListener { finish() }
+            .addOnFailureListener {
+                //todo Message
+            }
     }
 }
 

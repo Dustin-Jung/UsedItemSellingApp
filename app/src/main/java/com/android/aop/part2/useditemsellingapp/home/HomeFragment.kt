@@ -19,22 +19,19 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class HomeFragment: Fragment(R.layout.fragment_home) {
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var userDB: DatabaseReference
     private lateinit var articeDB: DatabaseReference
-    private lateinit var articleRecyclerViewAdapter : ArticleRecyclerViewAdapter
+    private lateinit var articleRecyclerViewAdapter: ArticleRecyclerViewAdapter
 
     private val articleList = mutableListOf<ArticleModel>()
-    private val listener = object :ChildEventListener{
+    private val listener = object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-
             val articleModel = snapshot.getValue(ArticleModel::class.java)
             articleModel ?: return
-
             articleList.add(articleModel)
-            articleRecyclerViewAdapter.submitList(articleList)
-
+            articleRecyclerViewAdapter.addAll(articleList)
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -55,7 +52,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
     }
 
-    private var binding : FragmentHomeBinding? = null
+    private var binding: FragmentHomeBinding? = null
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
@@ -110,15 +107,15 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
 
         fragmentHomeBinding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
-        fragmentHomeBinding.articleRecyclerView.adapter = ArticleRecyclerViewAdapter()
+        fragmentHomeBinding.articleRecyclerView.adapter = articleRecyclerViewAdapter
 
         fragmentHomeBinding.addFloatingButton.setOnClickListener {
             context?.let {
-                if(auth.currentUser != null){
+                if (auth.currentUser != null) {
                     val intent = Intent(it, AddArticleActivity::class.java)
                     startActivity(intent)
-                } else{
-                    Snackbar.make(view,"로그인 후 사용해주세요", Snackbar.LENGTH_LONG).show()
+                } else {
+                    Snackbar.make(view, "로그인 후 사용해주세요", Snackbar.LENGTH_LONG).show()
                 }
             }
         }
