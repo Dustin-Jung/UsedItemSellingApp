@@ -36,7 +36,6 @@ class ChatListFragment: Fragment(R.layout.fragment_chatlist) {
 
 
         chatListRecyclerViewAdapter = ChatListRecyclerViewAdapter(onItemClicked = { chatRoom ->
-            // 채팅방으로 이동 하는 코드
             context?.let {
                 val intent = Intent(it, ChatRoomActivity::class.java)
                 intent.putExtra("chatKey", chatRoom.key)
@@ -65,7 +64,7 @@ class ChatListFragment: Fragment(R.layout.fragment_chatlist) {
                     chatRoomList.add(model)
                 }
 
-                chatListRecyclerViewAdapter.submitList(chatRoomList)
+                chatListRecyclerViewAdapter.addAll(chatRoomList)
                 chatListRecyclerViewAdapter.notifyDataSetChanged()
             }
 

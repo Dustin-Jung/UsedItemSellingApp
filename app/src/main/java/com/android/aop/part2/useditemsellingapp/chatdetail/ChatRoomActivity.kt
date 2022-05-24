@@ -44,7 +44,7 @@ class ChatRoomActivity : AppCompatActivity(){
                 chatItem ?: return
 
                 chatList.add(chatItem)
-                chatItemRecyclerViewAdapter.submitList(chatList)
+                chatItemRecyclerViewAdapter.addAll(chatList)
                 chatItemRecyclerViewAdapter.notifyDataSetChanged()
             }
 
@@ -66,7 +66,7 @@ class ChatRoomActivity : AppCompatActivity(){
             val chatItem = auth.currentUser?.let { it1 ->
                 ChatItem(
                     senderId = it1.uid,
-                    message = findViewById<EditText>(R.id.messageEditText).text.toString()
+                    message = binding.messageEditText.text.toString()
                 )
             }
 

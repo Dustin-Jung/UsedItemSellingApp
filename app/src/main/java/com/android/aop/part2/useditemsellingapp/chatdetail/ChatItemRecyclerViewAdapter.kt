@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.aop.part2.useditemsellingapp.databinding.ItemChatBinding
+import com.android.aop.part2.useditemsellingapp.home.ArticleModel
 
 class ChatItemRecyclerViewAdapter:RecyclerView.Adapter<ChatItemViewHolder>() {
 
@@ -20,6 +21,13 @@ class ChatItemRecyclerViewAdapter:RecyclerView.Adapter<ChatItemViewHolder>() {
 
     override fun getItemCount(): Int {
         return chatItem.size
+    }
+
+    fun addAll(list: List<ChatItem>) {
+
+        chatItem.addAll(list)
+
+        notifyDataSetChanged()
     }
 
 }

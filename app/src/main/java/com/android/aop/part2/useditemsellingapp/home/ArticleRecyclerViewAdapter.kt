@@ -21,7 +21,7 @@ class ArticleRecyclerViewAdapter(val onItemClicked: (ArticleModel) -> Unit) : Re
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
 
-        holder.bind(articleList[position])
+        holder.bind(articleList[position], onItemClicked)
     }
 
     override fun getItemCount(): Int {
@@ -40,7 +40,7 @@ class ArticleRecyclerViewAdapter(val onItemClicked: (ArticleModel) -> Unit) : Re
 class ArticleViewHolder(val binding: ItemArticleRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
 
 
-    fun bind(articleModel: ArticleModel){
+    fun bind(articleModel: ArticleModel, onItemClicked: (ArticleModel) -> Unit){
         val format = SimpleDateFormat("MM월 dd일")
         val date = Date(articleModel.createdAt)
 

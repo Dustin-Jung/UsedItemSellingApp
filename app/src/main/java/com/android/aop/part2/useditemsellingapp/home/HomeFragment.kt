@@ -33,7 +33,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             articleModel ?: return
 
             articleList.add(articleModel)
-            articleRecyclerViewAdapter.submitList(articleList)
+            articleRecyclerViewAdapter.addAll(articleList)
 
         }
 
@@ -110,7 +110,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 
 
         fragmentHomeBinding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
-        fragmentHomeBinding.articleRecyclerView.adapter = ArticleRecyclerViewAdapter()
+        fragmentHomeBinding.articleRecyclerView.adapter = articleRecyclerViewAdapter
 
         fragmentHomeBinding.addFloatingButton.setOnClickListener {
             context?.let {

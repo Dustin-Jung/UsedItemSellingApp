@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.aop.part2.useditemsellingapp.databinding.ItemChatListBinding
+import com.android.aop.part2.useditemsellingapp.home.ArticleModel
 
 class ChatListRecyclerViewAdapter(val onItemClicked: (ChatListItem) -> Unit) : RecyclerView.Adapter<ChatListViewHolder>(){
 
@@ -17,7 +18,7 @@ class ChatListRecyclerViewAdapter(val onItemClicked: (ChatListItem) -> Unit) : R
     }
 
     override fun onBindViewHolder(holder: ChatListViewHolder, position: Int) {
-        holder.bind(chatList[position])
+        holder.bind(chatList[position],onItemClicked)
 
     }
 
@@ -25,12 +26,19 @@ class ChatListRecyclerViewAdapter(val onItemClicked: (ChatListItem) -> Unit) : R
         return chatList.size
     }
 
+    fun addAll(list: List<ChatListItem>) {
+
+        chatList.addAll(list)
+
+        notifyDataSetChanged()
+    }
+
 
 }
 
 class ChatListViewHolder(val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root){
 
-    fun bind(chatListItem: ChatListItem) {
+    fun bind(chatListItem: ChatListItem, onItemClicked: (ChatListItem) -> Unit) {
         binding.root.setOnClickListener {
             onItemClicked(chatListItem)
         }

@@ -43,6 +43,21 @@ class AddArticleActivity : AppCompatActivity() {
         Firebase.database.reference.child(DB_ARTICLES)
     }
 
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                2000 -> {
+                    val uri = result.data?.data
+                    if (uri != null) {
+                        binding.photoImageView.setImageURI(uri)
+                        selectedUri = uri
+                    } else {
+                        Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,23 +89,23 @@ class AddArticleActivity : AppCompatActivity() {
             val title = binding.titleEditText.text.toString()
             val price = binding.priceEditText.text.toString()
             val sellerId = auth.currentUser?.uid.orEmpty()
-        }
 
-        showProgress()
+            showProgress()
 
-        if (selectedUri != null) {
-            val photoUri = selectedUri ?: return@setOnClickListener
-            uploadPhoto(photoUri,
-                successHandler = { uri ->
-                    uploadArticle(sellerId, title, price, uri)
-                },
-                errorHandler = {
-                    Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                    hideProgress()
-                }
-            )
-        } else {
-            uploadArticle(sellerId, title, price, "")
+            if (selectedUri != null) {
+                val photoUri = selectedUri ?: return@setOnClickListener
+                uploadPhoto(photoUri,
+                    successHandler = { uri ->
+                        uploadArticle(sellerId, title, price, uri)
+                    },
+                    errorHandler = {
+                        Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        hideProgress()
+                    }
+                )
+            } else {
+                uploadArticle(sellerId, title, price, "")
+            }
         }
     }
 
@@ -109,39 +124,17 @@ class AddArticleActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this, "권한을 거부하셨습니다.", Toast.LENGTH_SHORT).show()
                 }
+
         }
     }
 
     private fun startContentProvider() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        startActivityForResult(intent, 2000)
+        startForResult.launch(intent)
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-
-        when (requestCode) {
-            2000 -> {
-                val uri = data?.data
-                if (uri != null) {
-                    binding.photoImageView.setImageURI(uri)
-                    selectedUri = uri
-                } else {
-                    Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-            else -> {
-                Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     private fun showPermissionContextPopup() {
         AlertDialog.Builder(this)
@@ -154,7 +147,6 @@ class AddArticleActivity : AppCompatActivity() {
             .show()
 
     }
-
 
 
     private fun showProgress() {
@@ -188,9 +180,10 @@ class AddArticleActivity : AppCompatActivity() {
     private fun uploadArticle(sellerId: String, title: String, price: String, imageUrl: String) {
         val model = ArticleModel(sellerId, title, System.currentTimeMillis(), "$price 원", imageUrl)
         articleDB.push().setValue(model)
-
-        hideProgress()
-        finish()
+            .addOnCompleteListener { hideProgress() }
+            .addOnSuccessListener { finish() }
+            .addOnFailureListener {
+            }
     }
 }
 
