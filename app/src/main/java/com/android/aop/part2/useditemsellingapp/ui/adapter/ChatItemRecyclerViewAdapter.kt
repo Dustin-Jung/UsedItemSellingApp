@@ -1,10 +1,9 @@
-package com.android.aop.part2.useditemsellingapp.chatdetail
+package com.android.aop.part2.useditemsellingapp.ui.chatdetail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.aop.part2.useditemsellingapp.databinding.ItemChatBinding
-import com.android.aop.part2.useditemsellingapp.home.ArticleModel
 
 class ChatItemRecyclerViewAdapter:RecyclerView.Adapter<ChatItemViewHolder>() {
 

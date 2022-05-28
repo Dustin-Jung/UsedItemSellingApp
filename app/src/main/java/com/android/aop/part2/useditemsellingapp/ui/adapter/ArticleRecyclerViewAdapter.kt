@@ -1,8 +1,9 @@
-package com.android.aop.part2.useditemsellingapp.home
+package com.android.aop.part2.useditemsellingapp.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.android.aop.part2.useditemsellingapp.data.model.ArticleModel
 import com.android.aop.part2.useditemsellingapp.databinding.ItemArticleRecyclerviewBinding
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat

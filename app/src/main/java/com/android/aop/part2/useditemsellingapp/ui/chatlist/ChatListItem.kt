@@ -1,4 +1,4 @@
-package com.android.aop.part2.useditemsellingapp.chatlist
+package com.android.aop.part2.useditemsellingapp.ui.chatlist
 
 data class ChatListItem (
     val buyerId: String,

@@ -1,4 +1,4 @@
-package com.android.aop.part2.useditemsellingapp.chatlist
+package com.android.aop.part2.useditemsellingapp.ui.chatlist
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.aop.part2.useditemsellingapp.DBKey.Companion.CHILD_CHAT
 import com.android.aop.part2.useditemsellingapp.DBKey.Companion.DB_USERS
 import com.android.aop.part2.useditemsellingapp.R
-import com.android.aop.part2.useditemsellingapp.chatdetail.ChatRoomActivity
+import com.android.aop.part2.useditemsellingapp.ui.chatdetail.ChatRoomActivity
 import com.android.aop.part2.useditemsellingapp.databinding.FragmentChatlistBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

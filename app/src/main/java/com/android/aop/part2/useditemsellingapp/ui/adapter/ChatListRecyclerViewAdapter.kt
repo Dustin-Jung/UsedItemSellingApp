@@ -1,10 +1,9 @@
-package com.android.aop.part2.useditemsellingapp.chatlist
+package com.android.aop.part2.useditemsellingapp.ui.chatlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.aop.part2.useditemsellingapp.databinding.ItemChatListBinding
-import com.android.aop.part2.useditemsellingapp.home.ArticleModel
 
 class ChatListRecyclerViewAdapter(val onItemClicked: (ChatListItem) -> Unit) : RecyclerView.Adapter<ChatListViewHolder>(){
 

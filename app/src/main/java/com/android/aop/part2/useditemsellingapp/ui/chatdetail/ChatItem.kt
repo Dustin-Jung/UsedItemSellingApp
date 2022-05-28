@@ -1,4 +1,4 @@
-package com.android.aop.part2.useditemsellingapp.chatdetail
+package com.android.aop.part2.useditemsellingapp.ui.chatdetail
 
 data class ChatItem(
     val senderId: String,

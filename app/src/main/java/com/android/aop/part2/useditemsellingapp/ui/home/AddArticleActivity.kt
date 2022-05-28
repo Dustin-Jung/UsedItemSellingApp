@@ -1,12 +1,9 @@
-package com.android.aop.part2.useditemsellingapp.home
+package com.android.aop.part2.useditemsellingapp.ui.home
 
-import android.app.Activity
-import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.android.aop.part2.useditemsellingapp.DBKey.Companion.DB_ARTICLES
+import com.android.aop.part2.useditemsellingapp.data.model.ArticleModel
 import com.android.aop.part2.useditemsellingapp.databinding.ActivityAddArticleBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -22,7 +20,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import java.lang.Exception
 
 
 class AddArticleActivity : AppCompatActivity() {

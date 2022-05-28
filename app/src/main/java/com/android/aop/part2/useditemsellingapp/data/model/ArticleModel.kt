@@ -1,4 +1,4 @@
-package com.android.aop.part2.useditemsellingapp.home
+package com.android.aop.part2.useditemsellingapp.data.model
 
 data class ArticleModel(
     val sellerId: String,

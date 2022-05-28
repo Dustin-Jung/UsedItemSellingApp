@@ -1,4 +1,4 @@
-package com.android.aop.part2.useditemsellingapp.mypage
+package com.android.aop.part2.useditemsellingapp.ui.mypage
 
 import android.os.Bundle
 import android.text.Editable
