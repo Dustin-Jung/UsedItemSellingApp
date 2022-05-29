@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -180,6 +181,7 @@ class AddArticleActivity : AppCompatActivity() {
             .addOnCompleteListener { hideProgress() }
             .addOnSuccessListener { finish() }
             .addOnFailureListener {
+                Log.d("결과", it.message.toString())
             }
     }
 }

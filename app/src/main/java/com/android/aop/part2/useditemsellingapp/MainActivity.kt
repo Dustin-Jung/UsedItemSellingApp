@@ -1,17 +1,17 @@
 package com.android.aop.part2.useditemsellingapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.android.aop.part2.useditemsellingapp.ui.chatlist.ChatListFragment
+import com.android.aop.part2.useditemsellingapp.base.BaseActivity
 import com.android.aop.part2.useditemsellingapp.databinding.ActivityMainBinding
+import com.android.aop.part2.useditemsellingapp.ui.chatlist.ChatListFragment
 import com.android.aop.part2.useditemsellingapp.ui.home.HomeFragment
 import com.android.aop.part2.useditemsellingapp.ui.mypage.MyPageFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 
-class MainActivity : AppCompatActivity() {
-
-    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,5 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
 
 }

@@ -39,7 +39,6 @@ class FirebaseRemoteDataSourceImpl @Inject constructor() : FirebaseRemoteDataSou
                     .child(DBKey.CHILD_CHAT)
                     .push()
                     .setValue(chatRoom)
-
                 callback("채팅방이 생성되었습니다. 채팅탭에서 확인해주세요.")
             } else {
                 callback("내가 올린 아이템입니다")

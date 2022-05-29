@@ -6,6 +6,8 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
+import com.android.aop.part2.useditemsellingapp.R
 
 abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId: Int) :
     AppCompatActivity() {

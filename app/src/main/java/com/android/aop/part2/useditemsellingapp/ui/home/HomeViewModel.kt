@@ -14,7 +14,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     application: Application,
     private val firebaseRepository: FirebaseRepository
-) : BaseViewModel(application = application) {
+) : BaseViewModel(app = application) {
 
     private val articleList = mutableListOf<ArticleModel>()
     private val listener = object : ChildEventListener {
@@ -22,10 +22,9 @@ class HomeViewModel @Inject constructor(
 
             val articleModel = snapshot.getValue(ArticleModel::class.java)
             articleModel ?: return
-
             articleList.add(articleModel)
-            articleRecyclerViewAdapter.addAll(articleList)
 
+            viewStateChanged(HomeViewState.GetArticleList(articleList))
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -53,15 +52,15 @@ class HomeViewModel @Inject constructor(
 
     fun createChatRoom(articleModel: ArticleModel) {
         firebaseRepository.createChatRoom(articleModel) { message ->
-            viewStateChange(HomeViewState.Message(message))
+            viewStateChanged(HomeViewState.Message(message))
         }
     }
 
     fun addArticle() {
         if (firebaseRepository.isLoginUser()) {
-            viewStateChange(HomeViewState.RouteAddArticle)
+            viewStateChanged(HomeViewState.RouteAddArticle)
         } else {
-            viewStateChange(HomeViewState.Message("로그인 후 사용해주세요"))
+            viewStateChanged(HomeViewState.Message("로그인 후 사용해주세요"))
         }
     }
 }
