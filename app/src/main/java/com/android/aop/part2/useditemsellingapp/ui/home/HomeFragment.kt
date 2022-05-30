@@ -3,24 +3,13 @@ package com.android.aop.part2.useditemsellingapp.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.aop.part2.useditemsellingapp.DBKey.Companion.CHILD_CHAT
 import com.android.aop.part2.useditemsellingapp.R
 import com.android.aop.part2.useditemsellingapp.base.BaseFragment
 import com.android.aop.part2.useditemsellingapp.base.ViewState
-import com.android.aop.part2.useditemsellingapp.ui.chatlist.ChatListItem
 import com.android.aop.part2.useditemsellingapp.databinding.FragmentHomeBinding
+import com.android.aop.part2.useditemsellingapp.ui.adapter.ArticleRecyclerViewAdapter
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +17,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel by viewModels<HomeViewModel>()
 
-    private lateinit var articleAdapter: ArticleRecyclerViewAdapter
+    private val articleAdapter  = ArticleRecyclerViewAdapter(onItemClicked = { articleModel ->
+        homeViewModel.createChatRoom(articleModel)
+    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,9 +28,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initUi() {
-        articleAdapter = ArticleRecyclerViewAdapter(onItemClicked = { articleModel ->
-            homeViewModel.createChatRoom(articleModel)
-        })
         binding.articleRecyclerView.adapter = articleAdapter
     }
 
