@@ -47,7 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun initViewModel() {
         binding.viewModel = homeViewModel
 
-        homeViewModel.viewState.observe(viewLifecycleOwner) { viewState ->
+        homeViewModel.viewStateLiveData.observe(viewLifecycleOwner) { viewState ->
             (viewState as? HomeViewState)?.let {
                 onChangedHomeViewState(viewState)
             }

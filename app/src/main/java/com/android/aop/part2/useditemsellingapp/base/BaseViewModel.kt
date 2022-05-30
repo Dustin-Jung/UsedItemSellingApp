@@ -11,10 +11,9 @@ abstract class BaseViewModel (app: Application) : AndroidViewModel(app) {
     val viewStateLiveData: LiveData<ViewState> = _viewStateLiveData
 
     protected fun viewStateChanged(viewState: ViewState) {
-        uiScope {
             _viewStateLiveData.value = viewState
             _viewStateLiveData.value = null
-        }
+
     }
 
 }
