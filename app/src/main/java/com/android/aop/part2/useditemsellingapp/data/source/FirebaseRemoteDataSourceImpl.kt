@@ -11,11 +11,11 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
 
-class FirebaseRemoteDataSourceImpl @Inject constructor() : FirebaseRemoteDataSource {
+class FirebaseRemoteDataSourceImpl @Inject constructor(private val auth : FirebaseAuth) : FirebaseRemoteDataSource {
 
     private var articleDB: DatabaseReference = Firebase.database.reference.child(DBKey.DB_ARTICLES)
     private var userDB: DatabaseReference = Firebase.database.reference.child(DBKey.DB_USERS)
-    private val auth: FirebaseAuth by lazy { Firebase.auth }
+
 
 
     override fun createChatRoom(articleModel: ArticleModel, callback: (String) -> Unit) {
