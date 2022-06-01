@@ -9,7 +9,6 @@ import com.android.aop.part2.useditemsellingapp.ui.home.HomeFragment
 import com.android.aop.part2.useditemsellingapp.ui.mypage.MyPageFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
@@ -42,5 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
 
     }
+
+
 
 }

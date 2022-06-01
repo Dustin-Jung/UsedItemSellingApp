@@ -181,8 +181,10 @@ class AddArticleActivity : AppCompatActivity() {
             .addOnCompleteListener { hideProgress() }
             .addOnSuccessListener { finish() }
             .addOnFailureListener {
-                Log.d("결과", it.message.toString())
+
+                Log.d("결과",it.message.toString())
             }
+
     }
 }
 

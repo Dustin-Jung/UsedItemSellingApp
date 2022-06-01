@@ -22,9 +22,10 @@ class HomeViewModel @Inject constructor(
 
             val articleModel = snapshot.getValue(ArticleModel::class.java)
             articleModel ?: return
-            articleList.add(articleModel)
 
+            articleList.add(articleModel)
             viewStateChanged(HomeViewState.GetArticleList(articleList))
+
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
